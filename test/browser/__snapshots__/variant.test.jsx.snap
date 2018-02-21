@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Variant should render arrays of components 1`] = `
+<CoreExperiment
+  name="array-of-elements"
+  value="A"
+>
+  <Pushtell.Variant
+    name="A"
+  >
+    <span>
+      <div
+        id="variant-a"
+      />
+      <div />
+    </span>
+  </Pushtell.Variant>
+</CoreExperiment>
+`;
+
+exports[`Variant should render components 1`] = `
+<CoreExperiment
+  name="components"
+  value="A"
+>
+  <Pushtell.Variant
+    name="A"
+  >
+    <div
+      id="variant-a"
+    />
+  </Pushtell.Variant>
+</CoreExperiment>
+`;

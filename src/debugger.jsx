@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import createReactClass from 'create-react-class';
 import emitter from "./emitter";
 import {canUseDOM} from 'fbjs/lib/ExecutionEnvironment';
 
@@ -79,35 +78,39 @@ if(process.env.NODE_ENV === "production" || !canUseDOM) {
       style = null;
     }
   }
-  const Debugger = createReactClass({
-    displayName: "Pushtell.Debugger",
-    getInitialState(){
-      return {
-        experiments: emitter.getActiveExperiments(),
-        visible: false
-      };
-    },
-    toggleVisibility() {
+
+  class Debugger extends Component {
+    state = {
+      experiments: emitter.getActiveExperiments(),
+      visible: false
+    };
+
+    toggleVisibility = () => {
       this.setState({
         visible: !this.state.visible
       });
-    },
-    updateExperiments(){
+    }
+
+    updateExperiments = () => {
       this.setState({
         experiments: emitter.getActiveExperiments()
       });
-    },
+    }
+
     setActiveVariant(experimentName, variantName) {
       emitter.setActiveVariant(experimentName, variantName);
-    },
+    }
+
     componentWillMount(){
       this.activeSubscription = emitter.addListener("active", this.updateExperiments);
       this.inactiveSubscription = emitter.addListener("inactive", this.updateExperiments);
-    },
+    }
+
     componentWillUnmount(){
       this.activeSubscription.remove();
       this.inactiveSubscription.remove();
-    },
+    }
+
     render(){
       var experimentNames = Object.keys(this.state.experiments);
       if(this.state.visible) {
@@ -142,7 +145,7 @@ if(process.env.NODE_ENV === "production" || !canUseDOM) {
         return null;
       }
     }
-  });
+  }
 
   module.exports = {
     enable() {

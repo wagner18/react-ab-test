@@ -1,10 +1,10 @@
 # A/B Testing React Components
 
 [![NPM Version](https://badge.fury.io/js/react-ab-test.svg)](https://www.npmjs.com/package/react-ab-test)
-[![Circle CI](https://circleci.com/gh/pushtell/react-ab-test.svg?style=shield)](https://circleci.com/gh/pushtell/react-ab-test)
-[![Coverage Status](https://coveralls.io/repos/pushtell/react-ab-test/badge.svg?branch=master&service=github)](https://coveralls.io/github/pushtell/react-ab-test?branch=master)
-[![Dependency Status](https://david-dm.org/pushtell/react-ab-test.svg)](https://david-dm.org/pushtell/react-ab-test)
-[![NPM Downloads](https://img.shields.io/npm/dm/react-ab-test.svg?style=flat)](https://www.npmjs.com/package/react-ab-test)
+[![Circle CI](https://circleci.com/gh/marvelapp/react-ab-test.svg?style=shield)](https://circleci.com/gh/marvelapp/react-ab-test)
+[![Coverage Status](https://coveralls.io/repos/marvelapp/react-ab-test/badge.svg?branch=master&service=github)](https://coveralls.io/github/marvelapp/react-ab-test?branch=master)
+[![Dependency Status](https://david-dm.org/marvelapp/react-ab-test.svg)](https://david-dm.org/marvelapp/react-ab-test)
+[![NPM Downloads](https://img.shields.io/npm/dm/react-ab-test.svg?style=flat)](https://www.npmjs.com/package/@marvelapp/react-ab-test)
 
 Wrap components in [`<Variant />`](#variant-) and nest in [`<Experiment />`](#experiment-). A variant is chosen randomly and saved to local storage.
 
@@ -27,7 +27,7 @@ emitter.addPlayListener(function(experimentName, variantName){
 });
 ```
 
-Please [★ on GitHub](https://github.com/pushtell/react-ab-test)!
+Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -71,17 +71,16 @@ Please [★ on GitHub](https://github.com/pushtell/react-ab-test)!
     - [`segmentHelper.disable()`](#segmenthelperdisable)
 - [How to contribute](#how-to-contribute)
   - [Requisites](#requisites)
-  - [Browser Coverage](#browser-coverage)
   - [Running Tests](#running-tests)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Installation
 
-`react-ab-test` is compatible with React 0.14.x and 0.15.x.
+`react-ab-test` is compatible with React >=0.14.x
 
 ```bash
-npm install react-ab-test
+yarn install react-ab-test
 ```
 
 ## Usage
@@ -713,42 +712,15 @@ Before contribuiting you need:
 
 Then you can:
 - Apply your changes :sunglasses:
-- Build your changes with `npm run build`
-- Test your changes with `npm test`
-- Lint your changes with `npm run lint`
+- Build your changes with `yarn build`
+- Test your changes with `yarn test`
+- Lint your changes with `yarn lint`
 - And finally open the PR! :tada:
-
-### Browser Coverage
-[Karma](http://karma-runner.github.io/0.13/index.html) tests are performed on [Browserstack](https://www.browserstack.com/) in the following browsers:
-
-* IE 9, Windows 7
-* IE 10, Windows 7
-* IE 11, Windows 7
-* Opera (latest version), Windows 7
-* Firefox (latest version), Windows 7
-* Chrome (latest version), Windows 7
-* Safari (latest version), OSX Yosemite
-* Android Browser (latest version), Google Nexus 7, Android 4.1
-* Mobile Safari (latest version), iPhone 6, iOS 8.3
-
-[Mocha](https://mochajs.org/) tests are performed on the latest version of [Node](https://nodejs.org/en/).
-
-Please [let us know](https://github.com/pushtell/react-ab-test/issues/new) if a different configuration should be included here.
 
 ### Running Tests
 
-Locally:
-
 ```bash
 
-npm test
-
-```
-
-On [Browserstack](https://www.browserstack.com/):
-
-```bash
-
-BROWSERSTACK_USERNAME=YOUR_USERNAME BROWSERSTACK_ACCESS_KEY=YOUR_ACCESS_KEY npm test
+yarn test
 
 ```
