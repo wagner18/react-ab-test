@@ -1,10 +1,9 @@
 # A/B Testing React Components
 
-[![NPM Version](https://badge.fury.io/js/react-ab-test.svg)](https://www.npmjs.com/package/react-ab-test)
+[![NPM version](https://badge.fury.io/js/%40marvelapp%2Freact-ab-test.svg)](https://badge.fury.io/js/%40marvelapp%2Freact-ab-test)
 [![Circle CI](https://circleci.com/gh/marvelapp/react-ab-test.svg?style=shield)](https://circleci.com/gh/marvelapp/react-ab-test)
-[![Coverage Status](https://coveralls.io/repos/marvelapp/react-ab-test/badge.svg?branch=master&service=github)](https://coveralls.io/github/marvelapp/react-ab-test?branch=master)
 [![Dependency Status](https://david-dm.org/marvelapp/react-ab-test.svg)](https://david-dm.org/marvelapp/react-ab-test)
-[![NPM Downloads](https://img.shields.io/npm/dm/react-ab-test.svg?style=flat)](https://www.npmjs.com/package/@marvelapp/react-ab-test)
+[![NPM Downloads](https://img.shields.io/npm/dm/marvelapp/react-ab-test.svg?style=flat)](https://www.npmjs.com/package/@marvelapp/react-ab-test)
 
 Wrap components in [`<Variant />`](#variant-) and nest in [`<Experiment />`](#experiment-). A variant is chosen randomly and saved to local storage.
 
