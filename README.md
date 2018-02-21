@@ -22,8 +22,11 @@ Wrap components in [`<Variant />`](#variant-) and nest in [`<Experiment />`](#ex
 Report to your analytics provider using the [`emitter`](#emitter). Helpers are available for [Mixpanel](#mixpanelhelper) and [Segment.com](#segmenthelper).
 
 ```js
-emitter.addPlayListener(function(experimentName, variantName){
-  mixpanel.track("Start Experiment", {name: experimentName, variant: variantName});
+emitter.addPlayListener((experimentName, variantName) => {
+  mixpanel.track('Start Experiment', {
+    name: experimentName,
+    variant: variantName,
+  });
 });
 ```
 
@@ -38,7 +41,6 @@ Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
   - [Standalone Component](#standalone-component)
   - [Coordinate Multiple Components](#coordinate-multiple-components)
   - [Weighting Variants](#weighting-variants)
-  - [Debugging](#debugging)
   - [Server Rendering](#server-rendering)
     - [Example](#example)
   - [With Babel](#with-babel)
@@ -77,10 +79,10 @@ Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
 
 ## Installation
 
-`react-ab-test` is compatible with React >=0.14.x
+`react-ab-test` is compatible with React `>=0.14.x`
 
 ```bash
-yarn install react-ab-test
+yarn install @marvelapp/react-ab-test
 ```
 
 ## Usage
@@ -90,40 +92,41 @@ yarn install react-ab-test
 Try it [on JSFiddle](https://jsfiddle.net/pushtell/m14qvy7r/)
 
 ```js
+import React from 'react';
+import { Experiment, Variant, emitter } from '@marvelapp/react-ab-test';
 
-var Experiment = require("react-ab-test/lib/Experiment");
-var Variant = require("react-ab-test/lib/Variant");
-var emitter = require("react-ab-test/lib/emitter");
-
-var App = React.createClass({
-  onButtonClick: function(e){
+class App extends Component {
+  onButtonClick(e) {
     this.refs.experiment.win();
-  },
-  render: function(){
-    return <div>
-      <Experiment ref="experiment" name="My Example">
-        <Variant name="A">
-          <div>Section A</div>
-        </Variant>
-        <Variant name="B">
-          <div>Section B</div>
-        </Variant>
-      </Experiment>
-      <button onClick={this.onButtonClick}>Emit a win</button>
-    </div>;
   }
-});
+  render() {
+    return (
+      <div>
+        <Experiment ref="experiment" name="My Example">
+          <Variant name="A">
+            <div>Section A</div>
+          </Variant>
+          <Variant name="B">
+            <div>Section B</div>
+          </Variant>
+        </Experiment>
+        <button onClick={this.onButtonClick}>Emit a win</button>
+      </div>
+    );
+  }
+}
 
 // Called when the experiment is displayed to the user.
-emitter.addPlayListener(function(experimentName, variantName){
-  console.log("Displaying experiment ‘" + experimentName + "’ variant ‘" + variantName + "’");
+emitter.addPlayListener(function(experimentName, variantName) {
+  console.log(`Displaying experiment ${experimentName} variant ${variantName}`);
 });
 
 // Called when a 'win' is emitted, in this case by this.refs.experiment.win()
-emitter.addWinListener(function(experimentName, variantName){
-  console.log("Variant ‘" + variantName + "’ of experiment ‘" + experimentName + "’  was clicked");
+emitter.addWinListener(function(experimentName, variantName) {
+  console.log(
+    `Variant ${variantName} of experiment ${experimentName} was clicked`
+  );
 });
-
 ```
 
 ### Coordinate Multiple Components
@@ -131,30 +134,28 @@ emitter.addWinListener(function(experimentName, variantName){
 Try it [on JSFiddle](http://jsfiddle.net/pushtell/pcutps9q/)
 
 ```js
-
-var Experiment = require("react-ab-test/lib/Experiment");
-var Variant = require("react-ab-test/lib/Variant");
-var emitter = require("react-ab-test/lib/emitter");
+import React from 'react';
+import { Experiment, Variant, emitter } from '@marvelapp/react-ab-test';
 
 // Define variants in advance.
-emitter.defineVariants("My Example", ["A", "B", "C"]);
+emitter.defineVariants('My Example', ['A', 'B', 'C']);
 
-var Component1 = React.createClass({
-  render: function(){
-    return <Experiment name="My Example">
+function Component1 = () => {
+  return (
+    <Experiment name="My Example">
       <Variant name="A">
         <div>Section A</div>
       </Variant>
       <Variant name="B">
         <div>Section B</div>
       </Variant>
-    </Experiment>;
-  }
-});
+    </Experiment>
+  );
+};
 
-var Component2 = React.createClass({
-  render: function(){
-    return <Experiment name="My Example">
+const Component2 = () => {
+  return (
+    <Experiment name="My Example">
       <Variant name="A">
         <div>Subsection A</div>
       </Variant>
@@ -164,39 +165,40 @@ var Component2 = React.createClass({
       <Variant name="C">
         <div>Subsection C</div>
       </Variant>
-    </Experiment>;
-  }
-});
+    </Experiment>
+  );
+};
 
-var Component3 = React.createClass({
-  onButtonClick: function(e){
-    emitter.emitWin("My Example");
-  },
-  render: function(){
+class Component3 extends React.Component {
+  onButtonClick(e) {
+    emitter.emitWin('My Example');
+  }
+  render() {
     return <button onClick={this.onButtonClick}>Emit a win</button>;
   }
-});
+}
 
-var App = React.createClass({
-  render: function(){
-    return <div>
+const App = () => {
+  return (
+    <div>
       <Component1 />
       <Component2 />
       <Component3 />
-    </div>;
-  }
-});
+    </div>
+  );
+};
 
 // Called when the experiment is displayed to the user.
-emitter.addPlayListener(function(experimentName, variantName){
-  console.log("Displaying experiment ‘" + experimentName + "’ variant ‘" + variantName + "’");
+emitter.addPlayListener(function(experimentName, variantName) {
+  console.log(`Displaying experiment ${experimentName} variant ${variantName}`);
 });
 
-// Called when a 'win' is emitted, in this case by emitter.emitWin()
-emitter.addWinListener(function(experimentName, variantName){
-  console.log("Variant ‘" + variantName + "’ of experiment ‘" + experimentName + "’ was clicked");
+// Called when a 'win' is emitted, in this case by this.refs.experiment.win()
+emitter.addWinListener(function(experimentName, variantName) {
+  console.log(
+    `Variant ${variantName} of experiment ${experimentName} was clicked`
+  );
 });
-
 ```
 
 ### Weighting Variants
@@ -205,18 +207,16 @@ Try it [on JSFiddle](http://jsfiddle.net/pushtell/e2q7xe4f/)
 
 Use [emitter.defineVariants()](#emitterdefinevariantsexperimentname-variantnames--variantweights) to optionally define the ratios by which variants are chosen.
 
-```js
-
-var Experiment = require("react-ab-test/lib/Experiment");
-var Variant = require("react-ab-test/lib/Variant");
-var emitter = require("react-ab-test/lib/emitter");
+````js
+import React from 'react';
+import { Experiment, Variant, emitter } from '@marvelapp/react-ab-test';
 
 // Define variants and weights in advance.
-emitter.defineVariants("My Example", ["A", "B", "C"], [10, 40, 40]);
+emitter.defineVariants('My Example', ['A', 'B', 'C'], [10, 40, 40]);
 
-var App = React.createClass({
-  render: function(){
-    return <div>
+const App = () => {
+  return (
+    <div>
       <Experiment ref="experiment" name="My Example">
         <Variant name="A">
           <div>Section A</div>
@@ -228,10 +228,9 @@ var App = React.createClass({
           <div>Section C</div>
         </Variant>
       </Experiment>
-    </div>;
-  }
-});
-
+    </div>
+  );
+}
 ```
 
 ### Debugging
@@ -245,16 +244,14 @@ The debugger is wrapped in a conditional `if(process.env.NODE_ENV === "productio
 Try it [on JSFiddle](http://jsfiddle.net/pushtell/vs9kkxLd/)
 
 ```js
-
-var Experiment = require("react-ab-test/lib/Experiment");
-var Variant = require("react-ab-test/lib/Variant");
-var experimentDebugger = require("react-ab-test/lib/debugger");
+import React from 'react';
+import { Experiment, Variant, experimentDebugger } from '@marvelapp/react-ab-test';
 
 experimentDebugger.enable();
 
-var App = React.createClass({
-  render: function(){
-    return <div>
+const App = () => {
+  return (
+    <div>
       <Experiment ref="experiment" name="My Example">
         <Variant name="A">
           <div>Section A</div>
@@ -263,11 +260,11 @@ var App = React.createClass({
           <div>Section B</div>
         </Variant>
       </Experiment>
-    </div>;
-  }
-});
+    </div>
+  );
+}
+````
 
-```
 ### Server Rendering
 
 A [`<Experiment />`](#experiment-) with a `userIdentifier` property will choose a consistent [`<Variant />`](#variant-) suitable for server side rendering.
@@ -279,60 +276,68 @@ See [`./examples/isomorphic`](https://github.com/pushtell/react-ab-test/tree/dev
 The component in [`Component.jsx`](https://github.com/pushtell/react-ab-test/blob/master/examples/isomorphic/Component.jsx):
 
 ```js
-
-var React = require("react");
-var Experiment = require("react-ab-test/lib/Experiment");
-var Variant = require("react-ab-test/lib/Variant");
+var React = require('react');
+var Experiment = require('react-ab-test/lib/Experiment');
+var Variant = require('react-ab-test/lib/Variant');
 
 module.exports = React.createClass({
   propTypes: {
-    userIdentifier: React.PropTypes.string.isRequired
+    userIdentifier: React.PropTypes.string.isRequired,
   },
-  render: function(){
-    return <div>
-      <Experiment ref="experiment" name="My Example" userIdentifier={this.props.userIdentifier}>
-        <Variant name="A">
-          <div>Section A</div>
-        </Variant>
-        <Variant name="B">
-          <div>Section B</div>
-        </Variant>
-      </Experiment>
-    </div>;
-  }
+  render: function() {
+    return (
+      <div>
+        <Experiment
+          ref="experiment"
+          name="My Example"
+          userIdentifier={this.props.userIdentifier}
+        >
+          <Variant name="A">
+            <div>Section A</div>
+          </Variant>
+          <Variant name="B">
+            <div>Section B</div>
+          </Variant>
+        </Experiment>
+      </div>
+    );
+  },
 });
-
 ```
 
 We use a session ID for the `userIdentifier` property in this example, although a long-lived user ID would be preferable. See [`server.js`](https://github.com/pushtell/react-ab-test/blob/master/examples/isomorphic/server.js):
 
 ```js
-require("babel/register")({only: /jsx/});
+require('babel/register')({ only: /jsx/ });
 
 var express = require('express');
 var session = require('express-session');
-var React = require("react");
-var ReactDOMServer = require("react-dom/server");
-var Component = require("./Component.jsx");
-var abEmitter = require("react-ab-test/lib/emitter")
+var React = require('react');
+var ReactDOMServer = require('react-dom/server');
+var Component = require('./Component.jsx');
+var abEmitter = require('react-ab-test/lib/emitter');
 
 var app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(
+  session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-app.get('/', function (req, res) {
-  var reactElement = React.createElement(Component, {userIdentifier: req.sessionID});
+app.get('/', function(req, res) {
+  var reactElement = React.createElement(Component, {
+    userIdentifier: req.sessionID,
+  });
   var reactString = ReactDOMServer.renderToString(reactElement);
   abEmitter.rewind();
   res.render('template', {
     sessionID: req.sessionID,
-    reactOutput: reactString
+    reactOutput: reactString,
   });
 });
 
@@ -366,9 +371,9 @@ On the client in [`app.jsx`](https://github.com/pushtell/react-ab-test/blob/mast
 ```js
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Component = require("../Component.jsx");
+var Component = require('../Component.jsx');
 
-var container = document.getElementById("react-mount");
+var container = document.getElementById('react-mount');
 
 ReactDOM.render(<Component userIdentifier={SESSION_ID} />, container);
 ```
@@ -378,6 +383,7 @@ ReactDOM.render(<Component userIdentifier={SESSION_ID} />, container);
 Code from [`./src`](https://github.com/pushtell/react-ab-test/tree/master/src) is written in [JSX](https://facebook.github.io/jsx/) and transpiled into [`./lib`](https://github.com/pushtell/react-ab-test/tree/master/lib) using [Babel](https://babeljs.io/). If your project uses Babel you may want to include files from [`./src`](https://github.com/pushtell/react-ab-test/tree/master/src) directly.
 
 ## Alternative Libraries
+
 * [**react-experiments**](https://github.com/HubSpot/react-experiments) - “A JavaScript library that assists in defining and managing UI experiments in React” by [Hubspot](https://github.com/HubSpot). Uses Facebook's [PlanOut framework](http://facebook.github.io/planout/) via [Hubspot's javascript port](https://github.com/HubSpot/PlanOut.js).
 * [**react-ab**](https://github.com/olahol/react-ab) - “Simple declarative and universal A/B testing component for React” by [Ola Holmström](https://github.com/olahol)
 * [**react-native-ab**](https://github.com/lwansbrough/react-native-ab/) - “A component for rendering A/B tests in React Native” by [Loch Wansbrough](https://github.com/lwansbrough)
@@ -598,39 +604,38 @@ When a [win is emitted](#emitteremitwinexperimentname) the helper sends an `Expe
 Try it [on JSFiddle](https://jsfiddle.net/pushtell/hwtnzm35/)
 
 ```js
-
-var Experiment = require("react-ab-test/lib/Experiment");
-var Variant = require("react-ab-test/lib/Variant");
-var mixpanelHelper = require("react-ab-test/lib/helpers/mixpanel");
+import React from 'react';
+import { Experiment, Variant, mixpanelHelper } from '@marvelapp/react-ab-test';
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
 mixpanelHelper.enable();
 
-var App = React.createClass({
-  onButtonClick: function(e){
-    emitter.emitWin("My Example");
+class App extends React.Component {
+  onButtonClick(e) {
+    emitter.emitWin('My Example');
     // mixpanelHelper sends the 'Experiment Win' event, equivalent to:
     // mixpanel.track('Experiment Win', {Experiment: "My Example", Variant: "A"})
-  },
-  componentWillMount: function(){
+  }
+  componentWillMount() {
     // mixpanelHelper sends the 'Experiment Play' event, equivalent to:
     // mixpanel.track('Experiment Play', {Experiment: "My Example", Variant: "A"})
-  },
-  render: function(){
-    return <div>
-      <Experiment ref="experiment" name="My Example">
-        <Variant name="A">
-          <div>Section A</div>
-        </Variant>
-        <Variant name="B">
-          <div>Section B</div>
-        </Variant>
-      </Experiment>
-      <button onClick={this.onButtonClick}>Emit a win</button>
-    </div>;
   }
-});
-
+  render() {
+    return (
+      <div>
+        <Experiment ref="experiment" name="My Example">
+          <Variant name="A">
+            <div>Section A</div>
+          </Variant>
+          <Variant name="B">
+            <div>Section B</div>
+          </Variant>
+        </Experiment>
+        <button onClick={this.onButtonClick}>Emit a win</button>
+      </div>
+    );
+  }
+}
 ```
 
 #### `mixpanelHelper.enable()`
@@ -658,39 +663,38 @@ When a [win is emitted](#emitteremitwinexperimentname) the helper sends an `Expe
 Try it [on JSFiddle](https://jsfiddle.net/pushtell/ae1jeo2k/)
 
 ```js
-
-var Experiment = require("react-ab-test/lib/Experiment");
-var Variant = require("react-ab-test/lib/Variant");
-var segmentHelper = require("react-ab-test/lib/helpers/segment");
+import React from 'react';
+import { Experiment, Variant, segmentHelper } from '@marvelapp/react-ab-test';
 
 // window.analytics has been set by Segment's embed snippet.
 segmentHelper.enable();
 
-var App = React.createClass({
-  onButtonClick: function(e){
-    emitter.emitWin("My Example");
+class App extends React.Component {
+  onButtonClick(e) {
+    emitter.emitWin('My Example');
     // segmentHelper sends the 'Experiment Won' event, equivalent to:
     // segment.track('Experiment Won', {experimentName: "My Example", variationName: "A"})
-  },
-  componentWillMount: function(){
+  }
+  componentWillMount() {
     // segmentHelper sends the 'Experiment Viewed' event, equivalent to:
     // segment.track('Experiment Viewed, {experimentName: "My Example", variationName: "A"})
-  },
-  render: function(){
-    return <div>
-      <Experiment ref="experiment" name="My Example">
-        <Variant name="A">
-          <div>Section A</div>
-        </Variant>
-        <Variant name="B">
-          <div>Section B</div>
-        </Variant>
-      </Experiment>
-      <button onClick={this.onButtonClick}>Emit a win</button>
-    </div>;
   }
-});
-
+  render() {
+    return (
+      <div>
+        <Experiment ref="experiment" name="My Example">
+          <Variant name="A">
+            <div>Section A</div>
+          </Variant>
+          <Variant name="B">
+            <div>Section B</div>
+          </Variant>
+        </Experiment>
+        <button onClick={this.onButtonClick}>Emit a win</button>
+      </div>
+    );
+  }
+}
 ```
 
 #### `segmentHelper.enable()`
@@ -706,21 +710,23 @@ Remove `win` and `play` listeners and stop reporting results to Segment.
 * **Return Type:** No return value
 
 ## How to contribute
+
 ### Requisites
+
 Before contribuiting you need:
-- [doctoc](https://github.com/thlorenz/doctoc) installed
+
+* [doctoc](https://github.com/thlorenz/doctoc) installed
 
 Then you can:
-- Apply your changes :sunglasses:
-- Build your changes with `yarn build`
-- Test your changes with `yarn test`
-- Lint your changes with `yarn lint`
-- And finally open the PR! :tada:
+
+* Apply your changes :sunglasses:
+* Build your changes with `yarn build`
+* Test your changes with `yarn test`
+* Lint your changes with `yarn lint`
+* And finally open the PR! :tada:
 
 ### Running Tests
 
 ```bash
-
 yarn test
-
 ```
