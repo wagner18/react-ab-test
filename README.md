@@ -40,6 +40,7 @@ Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
   - [Standalone Component](#standalone-component)
   - [Coordinate Multiple Components](#coordinate-multiple-components)
   - [Weighting Variants](#weighting-variants)
+  - [Debugging](#debugging)
   - [Server Rendering](#server-rendering)
     - [Example](#example)
   - [With Babel](#with-babel)
