@@ -11,7 +11,7 @@ const noopStore = {
   setItem: function(){}
 };
 
-if (typeof window !== 'undefined' && 'localStorage' in window && window['localStorage'] !== null) {
+if (typeof window !== 'undefined' && 'localStorage' in window) {
   try {
     let key = '__pushtell_react__';
     window.localStorage.setItem(key, key);
