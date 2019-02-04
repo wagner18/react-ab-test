@@ -27,3 +27,6 @@ lib
 
 # We use yarn
 package-lock.json
+
+# Metadata
+.DS_Store
