@@ -68,6 +68,19 @@ describe('Debugger', () => {
 
     experimentDebugger.disable();
   });
+
+  describe('when is not available', () => {
+    beforeEach(() => {
+      experimentDebugger.setDebuggerAvailable(false);
+      experimentDebugger.enable();
+    });
+    it('should do nothing when enabling it', () => {
+      expect(hasCSSSelector('#pushtell-debugger')).toBe(false);
+    });
+    afterEach(() => {
+      experimentDebugger.setDebuggerAvailable(true);
+    });
+  });
 });
 
 // See http://stackoverflow.com/a/985070

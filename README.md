@@ -61,6 +61,7 @@ Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
   - [`Subscription`](#subscription)
     - [`subscription.remove()`](#subscriptionremove)
   - [`experimentDebugger`](#experimentdebugger)
+    - [`experimentDebugger.setDebuggerAvailable(isAvailable)`](#experimentdebuggersetdebuggeravailableisavailable)
     - [`experimentDebugger.enable()`](#experimentdebuggerenable)
     - [`experimentDebugger.disable()`](#experimentdebuggerdisable)
   - [`mixpanelHelper`](#mixpanelhelper)
@@ -575,9 +576,20 @@ Removes the listener subscription and prevents future callbacks.
 
 Debugging tool. Attaches a fixed-position panel to the bottom of the `<body>` element that displays mounted experiments and enables the user to change active variants in real-time.
 
-The debugger is wrapped in a conditional `if(process.env.NODE_ENV === "production") {...}` and will not display on production builds using [envify](https://github.com/hughsk/envify).
+The debugger is wrapped in a conditional `if(process.env.NODE_ENV === "production") {...}` and will not display on production builds using [envify](https://github.com/hughsk/envify). This can be overriden by `setDebuggerAvailable`
 
 <img src="https://cdn.rawgit.com/pushtell/react-ab-test/master/documentation-images/debugger-animated-2.gif" width="325" height="325" />
+
+#### `experimentDebugger.setDebuggerAvailable(isAvailable)`
+Overrides `process.env.NODE_ENV` check, so it can be decided if the debugger is available
+or not at runtime. This allow, for instance, to enable the debugger in a testing environment but not in production.
+Note that you require to explicitly call to `.enable` even if you forced this to be truthy.
+
+* **Return Type:** No return value
+* **Parameters:**
+  * `isAvailable` - Tells whether the debugger is available or not
+    * **Required**
+    * **Type:** `boolean`
 
 #### `experimentDebugger.enable()`
 
