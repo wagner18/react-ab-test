@@ -83,7 +83,7 @@ Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
 `react-ab-test` is compatible with React `>=0.14.x`
 
 ```bash
-yarn install @marvelapp/react-ab-test
+yarn add @marvelapp/react-ab-test
 ```
 
 ## Usage
