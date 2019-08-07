@@ -1,4 +1,5 @@
 import {EventEmitter} from 'fbemitter';
+import calculateActiveVariant from './calculateActiveVariant';
 
 let values = {};
 let experiments = {};
@@ -167,6 +168,11 @@ PushtellEventEmitter.prototype.getActiveExperiments = function(){
   return response;
 }
 
+PushtellEventEmitter.prototype.calculateActiveVariant = function(experimentName, userIdentifier, defaultVariantName){
+  const variant = calculateActiveVariant(experimentName, userIdentifier, defaultVariantName);
+  return variant;
+}
+
 PushtellEventEmitter.prototype.getActiveVariant = function(experimentName){
   return values[experimentName];
 }
@@ -195,4 +201,4 @@ PushtellEventEmitter.prototype.addExperimentVariant = function(experimentName, v
   experiments[experimentName][variantName] = true;
 }
 
-export default new PushtellEventEmitter();;
+export default new PushtellEventEmitter();

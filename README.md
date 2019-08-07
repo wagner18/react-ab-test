@@ -40,6 +40,7 @@ Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
   - [Standalone Component](#standalone-component)
   - [Coordinate Multiple Components](#coordinate-multiple-components)
   - [Weighting Variants](#weighting-variants)
+  - [Force variant calculation before rendering experiment](#force-variant-calculation-before-rendering-experiment)
   - [Debugging](#debugging)
   - [Server Rendering](#server-rendering)
     - [Example](#example)
@@ -57,6 +58,7 @@ Please [★ on GitHub](https://github.com/marvelapp/react-ab-test)!
     - [`emitter.defineVariants(experimentName, variantNames [, variantWeights])`](#emitterdefinevariantsexperimentname-variantnames--variantweights)
     - [`emitter.setActiveVariant(experimentName, variantName)`](#emittersetactivevariantexperimentname-variantname)
     - [`emitter.getActiveVariant(experimentName)`](#emittergetactivevariantexperimentname)
+    - [`emitter.calculateActiveVariant(experimentName [, userIdentifier, defaultVariantName])`](#emittercalculateactivevariantexperimentname--useridentifier-defaultvariantname)
     - [`emitter.getSortedVariants(experimentName)`](#emittergetsortedvariantsexperimentname)
   - [`Subscription`](#subscription)
     - [`subscription.remove()`](#subscriptionremove)
@@ -232,6 +234,23 @@ const App = () => {
     </div>
   );
 }
+```
+
+### Force variant calculation before rendering experiment
+There are some scenarios where you may want the active variant of an experiment to be calculated before the experiment is rendered.
+To do so, use [emitter.calculateActiveVariant()](#emittercalculateactivevariantexperimentname--useridentifier-defaultvariantname). Note that this method must
+be called after [emitter.defineVariants()](#emitterdefinevariantsexperimentname-variantnames--variantweights)
+
+```js
+import { emitter } from '@marvelapp/react-ab-test';
+
+// Define variants in advance
+emitter.defineVariants('My Example', ['A', 'B', 'C']);
+emitter.calculateActiveVariant('My Example', 'userId');
+
+// Active variant will be defined even if the experiment is not rendered
+const activeVariant = emitter.getActiveVariant('My Example');
+
 ```
 
 ### Debugging
@@ -550,6 +569,26 @@ Returns the variant name currently displayed by the experiment.
     * **Required**
     * **Type:** `string`
     * **Example:** `"My Example"`
+
+#### `emitter.calculateActiveVariant(experimentName [, userIdentifier, defaultVariantName])`
+
+Force calculation of active variant, even if the experiment is not displayed yet.
+Note: This method must be called after `emitter.defineVariants`
+
+* **Return Type:** `string`
+* **Parameters:**
+  * `experimentName` - Name of the experiment.
+    * **Required**
+    * **Type:** `string`
+    * **Example:** `"My Example"`
+  * `userIdentifier` - Distinct user identifier. When defined, this value is hashed to choose a variant if `defaultVariantName` or a stored value is not present. Useful for [server side rendering](#server-rendering).
+    * **Optional**
+    * **Type:** `string`
+    * **Example:** `"7cf61a4521f24507936a8977e1eee2d4"`
+  * `defaultVariantName` - Name of the default variant. When defined, this value is used to choose a variant if a stored value is not present. This property may be useful for [server side rendering](#server-rendering) but is otherwise not recommended.
+    * **Optional**
+    * **Type:** `string`
+    * **Example:** `"A"`
 
 #### `emitter.getSortedVariants(experimentName)`
 

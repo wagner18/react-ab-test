@@ -292,4 +292,11 @@ describe('Emitter', () => {
       },
     });
   });
+
+  it('should force the calculation of an active variant', () => {
+    const experimentName = UUID();
+    emitter.defineVariants(experimentName, ['A', 'B']);
+    const activeVariant = emitter.calculateActiveVariant(experimentName);
+    expect(activeVariant).toEqual(emitter.getActiveVariant(experimentName));
+  });
 });
