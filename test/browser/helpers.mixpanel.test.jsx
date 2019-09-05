@@ -2,7 +2,7 @@ import React from 'react';
 import UUID from 'uuid/v4';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 
-import Experiment from '../../src/CoreExperiment.jsx';
+import CoreExperiment from "../../src/CoreExperiment.jsx";
 import Variant from '../../src/Variant.jsx';
 import emitter from '../../src/emitter.jsx';
 import mixpanelHelper from '../../src/helpers/mixpanel.jsx';
@@ -35,14 +35,14 @@ describe('Mixpanel Helper', () => {
     mixpanelHelper.enable();
 
     mount(
-      <Experiment name={experimentName} value={variantName}>
+      <CoreExperiment name={experimentName} defaultVariantName={variantName}>
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-b" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     emitter.emitWin(experimentName);

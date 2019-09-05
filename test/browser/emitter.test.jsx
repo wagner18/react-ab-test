@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import UUID from 'uuid/v4';
 import { mount } from 'enzyme';
+import { act } from "@testing-library/react";
 
-import Experiment from '../../src/CoreExperiment.jsx';
+import CoreExperiment from '../../src/CoreExperiment.jsx';
+import Experiment from '../../src/Experiment.jsx';
 import Variant from '../../src/Variant.jsx';
 import emitter from '../../src/emitter.jsx';
 
@@ -40,14 +41,14 @@ describe('Emitter', () => {
     const playSubscriptionGlobal = emitter.addPlayListener(playCallbackGlobal);
 
     const wrapper = mount(
-      <Experiment name={experimentName} value="A">
+      <CoreExperiment name={experimentName} defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-a" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     expect(playedVariantName).toBe('A');
@@ -73,14 +74,14 @@ describe('Emitter', () => {
     const winSubscriptionGlobal = emitter.addWinListener(winCallbackGlobal);
 
     const wrapper = mount(
-      <Experiment name={experimentName} value="A">
+      <CoreExperiment name={experimentName} defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-a" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     emitter.emitWin(experimentName);
@@ -111,11 +112,14 @@ describe('Emitter', () => {
 
     class App extends Component {
       onClickVariant = e => {
-        this.refs.experiment.win();
+        this.experimentRef.current.win();
       };
+
+      experimentRef = React.createRef();
+
       render() {
         return (
-          <Experiment ref="experiment" name={experimentName} value="A">
+          <Experiment ref={this.experimentRef} name={experimentName} defaultVariantName="A">
             <Variant name="A">
               <a id="variant-a" href="#A" onClick={this.onClickVariant}>
                 A
@@ -162,8 +166,10 @@ describe('Emitter', () => {
       activeVariantCallbackGlobal
     );
 
+    const experimentRef = React.createRef();
+
     const wrapper = mount(
-      <Experiment ref="experiment" name={experimentName} value="A">
+      <Experiment ref={experimentRef} name={experimentName} defaultVariantName="A">
         <Variant name="A">
           <a id="variant-a" href="#A">
             A
@@ -187,9 +193,10 @@ describe('Emitter', () => {
 
   it('should get the experiment value.', () => {
     const experimentName = UUID();
+    const experimentRef = React.createRef();
 
     const wrapper = mount(
-      <Experiment ref="experiment" name={experimentName} value="A">
+      <Experiment ref={experimentRef} name={experimentName} defaultVariantName="A">
         <Variant name="A">
           <a id="variant-a" href="#A">
             A
@@ -210,20 +217,22 @@ describe('Emitter', () => {
     const experimentName = UUID();
 
     const wrapper = mount(
-      <Experiment name={experimentName} value="A">
+      <CoreExperiment name={experimentName} defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-b" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     expect(wrapper.find('#variant-a').exists());
     expect(!wrapper.find('#variant-b').exists());
 
-    emitter.setActiveVariant(experimentName, 'B');
+    act(() => {
+      emitter.setActiveVariant(experimentName, "B");
+    });
 
     expect(!wrapper.find('#variant-a').exists());
     expect(wrapper.find('#variant-b').exists());
@@ -234,18 +243,18 @@ describe('Emitter', () => {
     let experimentNameB = UUID();
 
     const AppA = () => (
-      <Experiment name={experimentNameA} value="A">
+      <CoreExperiment name={experimentNameA} defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-b" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     const AppB = () => (
-      <Experiment name={experimentNameB} value="C">
+      <Experiment name={experimentNameB} defaultVariantName="C">
         <Variant name="C">
           <div id="variant-a" />
         </Variant>
@@ -262,7 +271,7 @@ describe('Emitter', () => {
       </div>
     );
 
-    let wrapper = mount(<AppA />);
+    let wrapper = mount(<AppA />)
     expect(emitter.getActiveExperiments()).toEqual({
       [experimentNameA]: {
         A: true,

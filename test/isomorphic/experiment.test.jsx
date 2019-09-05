@@ -48,12 +48,8 @@ describe('Experiment', () => {
 
     const App = renderApp(experimentName, variantNames, userIdentifier);
 
-    let chosenVariant;
-    emitter.once('play', (experimentName, variantName) => {
-      chosenVariant = variantName;
-    });
-
     const result = ReactDOMServer.renderToString(<App />);
+    const chosenVariant = result.match(/"(variant-[0-9a-zA-Z-]+)"/i)[1];
     expect(chosenVariant).toBeDefined();
 
     expect(result.indexOf(chosenVariant)).not.toEqual(-1);

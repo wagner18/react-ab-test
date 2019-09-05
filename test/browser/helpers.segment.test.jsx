@@ -3,7 +3,7 @@ import UUID from 'uuid/v4';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import { mount } from 'enzyme';
 
-import Experiment from '../../src/CoreExperiment.jsx';
+import CoreExperiment from '../../src/CoreExperiment.jsx';
 import Variant from '../../src/Variant.jsx';
 import emitter from '../../src/emitter.jsx';
 import segmentHelper from '../../src/helpers/segment.jsx';
@@ -35,14 +35,14 @@ describe('Segment Helper', () => {
     segmentHelper.enable();
 
     mount(
-      <Experiment name={experimentName} value={variantName}>
+      <CoreExperiment name={experimentName} defaultVariantName={variantName}>
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-b" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     emitter.emitWin(experimentName);
