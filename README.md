@@ -94,18 +94,51 @@ yarn add @marvelapp/react-ab-test
 
 Try it [on JSFiddle](https://jsfiddle.net/pushtell/m14qvy7r/)
 
+
+Using useExperiment Hook - requires registration of experiments
+
+```js
+import React from 'react';
+import { useExperiment } from '@marvelapp/react-ab-test';
+
+emitter.defineVariants("My Example", ["A", "B"]);
+
+const App = () => {
+  const { selectVariant, emitWin } = useExperiment("My Example");
+  const variant = selectVariant({
+    A: <div>Section A</div>
+    B: <div>Section B</div>
+  });
+
+  return (
+    <div>
+      {variant}
+      <button onClick={emitWin}>CTA</button>
+    </div>
+  );
+};
+```
+
+
+Using Experiment Component
+
 ```js
 import React from 'react';
 import { Experiment, Variant, emitter } from '@marvelapp/react-ab-test';
 
 class App extends Component {
+  experimentRef = React.createRef();
+
+  onButtonClick(e) {
+    this.experimentRef.current.win();
+
   onButtonClick(e) {
     this.refs.experiment.win();
   }
   render() {
     return (
       <div>
-        <Experiment ref="experiment" name="My Example">
+        <Experiment ref={this.experimentRef} name="My Example">
           <Variant name="A">
             <div>Section A</div>
           </Variant>
@@ -220,7 +253,7 @@ emitter.defineVariants('My Example', ['A', 'B', 'C'], [10, 40, 40]);
 const App = () => {
   return (
     <div>
-      <Experiment ref="experiment" name="My Example">
+      <Experiment name="My Example">
         <Variant name="A">
           <div>Section A</div>
         </Variant>
@@ -272,7 +305,7 @@ experimentDebugger.enable();
 const App = () => {
   return (
     <div>
-      <Experiment ref="experiment" name="My Example">
+      <Experiment name="My Example">
         <Variant name="A">
           <div>Section A</div>
         </Variant>
@@ -308,7 +341,6 @@ module.exports = React.createClass({
     return (
       <div>
         <Experiment
-          ref="experiment"
           name="My Example"
           userIdentifier={this.props.userIdentifier}
         >
@@ -662,8 +694,11 @@ import { Experiment, Variant, mixpanelHelper } from '@marvelapp/react-ab-test';
 mixpanelHelper.enable();
 
 class App extends React.Component {
+
+  experimentRef = React.createRef();
+
   onButtonClick(e) {
-    emitter.emitWin('My Example');
+    this.experimentRef.current.win();
     // mixpanelHelper sends the 'Experiment Win' event, equivalent to:
     // mixpanel.track('Experiment Win', {Experiment: "My Example", Variant: "A"})
   }
@@ -674,7 +709,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Experiment ref="experiment" name="My Example">
+        <Experiment ref={this.experimentRef} name="My Example">
           <Variant name="A">
             <div>Section A</div>
           </Variant>
@@ -721,8 +756,10 @@ import { Experiment, Variant, segmentHelper } from '@marvelapp/react-ab-test';
 segmentHelper.enable();
 
 class App extends React.Component {
+  experimentRef = React.createRef();
+
   onButtonClick(e) {
-    emitter.emitWin('My Example');
+    this.experimentRef.current.win();
     // segmentHelper sends the 'Experiment Won' event, equivalent to:
     // segment.track('Experiment Won', {experimentName: "My Example", variationName: "A"})
   }
@@ -733,7 +770,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Experiment ref="experiment" name="My Example">
+        <Experiment ref={this.experimentRef} name="My Example">
           <Variant name="A">
             <div>Section A</div>
           </Variant>
