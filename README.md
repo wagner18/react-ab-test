@@ -95,12 +95,13 @@ yarn add @marvelapp/react-ab-test
 Try it [on JSFiddle](https://jsfiddle.net/pushtell/m14qvy7r/)
 
 
-Using useExperiment Hook - requires registration of experiments
+Using useExperiment Hook
 
 ```js
 import React from 'react';
 import { useExperiment } from '@marvelapp/react-ab-test';
 
+// Hook usage pattern requires registration of experiments
 emitter.defineVariants("My Example", ["A", "B"]);
 
 const App = () => {
