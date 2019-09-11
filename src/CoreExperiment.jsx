@@ -37,4 +37,10 @@ const CoreExperiment = (props) => {
   return selectVariant(variants, []);
 };
 
+CoreExperiment.propTypes = {
+  name: PropTypes.string.isRequired,
+  userIdentifier: PropTypes.string,
+  defaultVariantName: PropTypes.string,
+}
+
 export default CoreExperiment;
