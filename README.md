@@ -156,7 +156,7 @@ emitter.addPlayListener(function(experimentName, variantName) {
   console.log(`Displaying experiment ${experimentName} variant ${variantName}`);
 });
 
-// Called when a 'win' is emitted, in this case by this.refs.experiment.win()
+// Called when a 'win' is emitted, in this case by this.experimentRef.current.win()
 emitter.addWinListener(function(experimentName, variantName) {
   console.log(
     `Variant ${variantName} of experiment ${experimentName} was clicked`
@@ -228,7 +228,7 @@ emitter.addPlayListener(function(experimentName, variantName) {
   console.log(`Displaying experiment ${experimentName} variant ${variantName}`);
 });
 
-// Called when a 'win' is emitted, in this case by this.refs.experiment.win()
+// Called when a 'win' is emitted, in this case by emitter.emitWin('My Example')
 emitter.addWinListener(function(experimentName, variantName) {
   console.log(
     `Variant ${variantName} of experiment ${experimentName} was clicked`
