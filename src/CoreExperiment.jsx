@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from "react";
-import PropTypes from "prop-types";
-import useExperiment from "./hook";
-import emitter from "./emitter";
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import useExperiment from './hook';
+import emitter from './emitter';
 
 const filterVariants = (name, children) => {
   let variants = {};

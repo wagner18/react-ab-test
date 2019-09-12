@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import CoreExperiment from "../../src/CoreExperiment.jsx";
+import CoreExperiment from '../../src/CoreExperiment.jsx';
 import Variant from '../../src/Variant.jsx';
 import emitter from '../../src/emitter.jsx';
 
