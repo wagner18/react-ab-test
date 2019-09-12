@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import emitter from "./emitter";
 
 const selectVariant = (currentVariant) => (variants, fallback) => {
-  if (Object.keys(variants).indexOf(currentVariant) !== -1) {
+  if (currentVariant in variants) {
     return variants[currentVariant];
   }
   return fallback;

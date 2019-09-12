@@ -2,7 +2,7 @@ import React from 'react';
 import UUID from 'uuid/v4';
 import { mount } from 'enzyme';
 
-import useExperiment from '../../src/hooks';
+import useExperiment from '../../src/hook';
 import emitter from '../../src/emitter';
 
 describe('useExperiment', function() {

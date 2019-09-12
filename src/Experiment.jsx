@@ -15,7 +15,8 @@ export default class Experiment extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     defaultVariantName: PropTypes.string,
-    userIdentifier: PropTypes.string
+    userIdentifier: PropTypes.string,
+    children: PropTypes.node
   };
 
   static displayName = "Pushtell.Experiment";

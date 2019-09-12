@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import useExperiment from "./hooks";
+import useExperiment from "./hook";
 import emitter from "./emitter";
 
 const filterVariants = (name, children) => {
@@ -41,6 +41,7 @@ CoreExperiment.propTypes = {
   name: PropTypes.string.isRequired,
   userIdentifier: PropTypes.string,
   defaultVariantName: PropTypes.string,
+  children: PropTypes.node
 }
 
 export default CoreExperiment;

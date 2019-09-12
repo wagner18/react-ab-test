@@ -132,10 +132,8 @@ class App extends Component {
 
   onButtonClick(e) {
     this.experimentRef.current.win();
-
-  onButtonClick(e) {
-    this.refs.experiment.win();
   }
+
   render() {
     return (
       <div>

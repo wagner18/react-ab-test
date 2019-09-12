@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import UUID from 'uuid/v4';
 import { mount } from 'enzyme';
-import { act } from "@testing-library/react";
+import { act } from 'react-dom/test-utils';
 
 import CoreExperiment from '../../src/CoreExperiment.jsx';
 import Experiment from '../../src/Experiment.jsx';
