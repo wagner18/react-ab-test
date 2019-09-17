@@ -53,8 +53,8 @@
   "scripts": {
     "test": "jest",
     "build": "doctoc . --github --title '<h1>Table of Contents</h1>'; babel src --out-dir lib;",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --ignore-path .gitignore --fix ."
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>test/setup.js",
