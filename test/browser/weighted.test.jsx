@@ -11,8 +11,7 @@ function add(a, b) {
 }
 
 describe('Weighted Experiment', () => {
-  xit('should choose a weighted variants', () => {
-    // TODO: this test work, but it's incredibly slow
+  it('should choose a weighted variants', () => {
     const experimentName = UUID();
     const variantNames = [];
     const variantWeights = [];
@@ -55,7 +54,8 @@ describe('Weighted Experiment', () => {
     });
 
     for (let i = 0; i < 1000; i++) {
-      mount(<App />);
+      const container = mount(<App />);
+      container.unmount();
       localStorage.clear();
       emitter._resetPlayedExperiments();
     }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import CoreExperiment from "./CoreExperiment";
 import emitter from "./emitter";
 import store from './store';
-import calculateActiveVariant from './calculateActiveVariant';
 
 emitter.addActiveVariantListener(function (experimentName, variantName, skipSave) {
   if (skipSave) {
@@ -16,7 +15,8 @@ export default class Experiment extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     defaultVariantName: PropTypes.string,
-    userIdentifier: PropTypes.string
+    userIdentifier: PropTypes.string,
+    children: PropTypes.node
   };
 
   static displayName = "Pushtell.Experiment";
@@ -25,12 +25,9 @@ export default class Experiment extends Component {
     emitter.emitWin(this.props.name);
   };
 
-
-  getActiveVariant = () => {
-    return calculateActiveVariant(this.props.name, this.props.userIdentifier, this.props.defaultVariantName);
-  }
-
   render() {
-    return <CoreExperiment {...this.props} value={this.getActiveVariant}/>;
+    return (
+      <CoreExperiment {...this.props}>{this.props.children}</CoreExperiment>
+    );
   }
 }

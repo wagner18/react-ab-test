@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import Experiment from '../../src/CoreExperiment.jsx';
+import CoreExperiment from '../../src/CoreExperiment.jsx';
 import Variant from '../../src/Variant.jsx';
 import emitter from '../../src/emitter.jsx';
 
@@ -11,10 +11,10 @@ describe('Variant', () => {
     const variantTextB = 'variantTextB';
 
     const wrapper = mount(
-      <Experiment name="text-nodes" value="A">
+      <CoreExperiment name="text-nodes" defaultVariantName="A">
         <Variant name="A">{variantTextA}</Variant>
         <Variant name="B">{variantTextB}</Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     expect(
@@ -27,14 +27,14 @@ describe('Variant', () => {
 
   it('should render components', () => {
     const wrapper = mount(
-      <Experiment name="components" value="A">
+      <CoreExperiment name="components" defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-b" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -42,7 +42,7 @@ describe('Variant', () => {
 
   it('should render arrays of components', () => {
     const wrapper = mount(
-      <Experiment name="array-of-elements" value="A">
+      <CoreExperiment name="array-of-elements" defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
           <div />
@@ -51,7 +51,7 @@ describe('Variant', () => {
           <div id="variant-b" />
           <div />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     expect(wrapper).toMatchSnapshot();

@@ -97,7 +97,7 @@ class Debugger extends Component {
     emitter.setActiveVariant(experimentName, variantName);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.activeSubscription = emitter.addListener("active", this.updateExperiments);
     this.inactiveSubscription = emitter.addListener("inactive", this.updateExperiments);
   }

@@ -107,8 +107,9 @@ describe('Experiment', function() {
     const experimentName = UUID();
     emitter.defineVariants(experimentName, ['A', 'B', 'C', 'D']);
 
+    let experimentRef = React.createRef();
     mount(
-      <Experiment ref="experiment" name={experimentName}>
+      <Experiment ref={experimentRef} name={experimentName}>
         <Variant name="A">
           <a id="variant-a" href="#A">
             A
@@ -123,7 +124,7 @@ describe('Experiment', function() {
     );
 
     mount(
-      <Experiment ref="experiment" name={experimentName}>
+      <Experiment ref={experimentRef} name={experimentName}>
         <Variant name="C">
           <a id="variant-c" href="#C">
             C

@@ -3,21 +3,21 @@ import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import UUID from 'uuid/v4';
 
-import Experiment from '../../src/CoreExperiment.jsx';
+import CoreExperiment from '../../src/CoreExperiment.jsx';
 import Variant from '../../src/Variant.jsx';
 import emitter from '../../src/emitter.jsx';
 
 describe('Core Experiment', () => {
   it('should render the correct variant.', () => {
     const wrapper = mount(
-      <Experiment name={UUID()} value="A">
+      <CoreExperiment name={UUID()} defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-b" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     expect(!wrapper.find('#variant-a').exists());
@@ -29,12 +29,12 @@ describe('Core Experiment', () => {
     spyOn(console, 'error');
     expect(() => {
       mount(
-        <Experiment name={UUID()} value="A">
+        <CoreExperiment name={UUID()} defaultVariantName="A">
           <Variant name="A">
             <div id="variant-a" />
           </Variant>
           <div />
-        </Experiment>
+        </CoreExperiment>
       );
     }).toThrowError(
       'Pushtell Experiment children must be Pushtell Variant components',
@@ -44,14 +44,14 @@ describe('Core Experiment', () => {
 
   it('should update on componentWillReceiveProps.', () => {
     const wrapper = mount(
-      <Experiment name={UUID()} value="A">
+      <CoreExperiment name={UUID()} defaultVariantName="A">
         <Variant name="A">
           <div id="variant-a" />
         </Variant>
         <Variant name="B">
           <div id="variant-b" />
         </Variant>
-      </Experiment>
+      </CoreExperiment>
     );
 
     expect(!wrapper.find('#variant-a').exists());
@@ -73,14 +73,14 @@ describe('Core Experiment', () => {
     };
     const App = ({ text }) => {
       return (
-        <Experiment name={UUID()} value="A">
+        <CoreExperiment name={UUID()} defaultVariantName="A">
           <Variant name="A">
             <SubComponent text={text} />
           </Variant>
           <Variant name="B">
             <div id="variant-b" />
           </Variant>
-        </Experiment>
+        </CoreExperiment>
       );
     };
     const originalText = 'original text';

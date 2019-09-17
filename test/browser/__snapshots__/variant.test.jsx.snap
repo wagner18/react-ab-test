@@ -2,8 +2,8 @@
 
 exports[`Variant should render arrays of components 1`] = `
 <CoreExperiment
+  defaultVariantName="A"
   name="array-of-elements"
-  value="A"
 >
   <Pushtell.Variant
     name="A"
@@ -20,8 +20,8 @@ exports[`Variant should render arrays of components 1`] = `
 
 exports[`Variant should render components 1`] = `
 <CoreExperiment
+  defaultVariantName="A"
   name="components"
-  value="A"
 >
   <Pushtell.Variant
     name="A"
