@@ -181,7 +181,7 @@ describe('Experiment', function() {
 
   it('should not error if an older test variant is set', () => {
     const experimentName = UUID();
-    localStorage.setItem('PUSHTELL-' + experimentName, 'C');
+    localStorage.setItem('orexp-' + experimentName, 'C');
 
     mount(
       <Experiment name={experimentName}>

@@ -1,5 +1,5 @@
 {
-  "name": "@marvelapp/react-ab-test",
+  "name": "@wb/react-ab-test",
   "keywords": [
     "react",
     "react-component",
@@ -65,12 +65,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marvelapp/react-ab-test.git"
+    "url": "git+https://github.com/wagner18/react-ab-test.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/marvelapp/react-ab-test/issues"
+    "url": "https://github.com/wagner18/react-ab-test/issues"
   },
-  "homepage": "https://github.com/marvelapp/react-ab-test#readme"
+  "homepage": "https://github.com/wagner18/react-ab-test#readme"
 }

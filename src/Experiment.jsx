@@ -8,7 +8,7 @@ emitter.addActiveVariantListener(function (experimentName, variantName, skipSave
   if (skipSave) {
     return;
   }
-  store.setItem('PUSHTELL-' + experimentName, variantName);
+  store.setItem('orexp-' + experimentName, variantName);
 });
 
 export default class Experiment extends Component {
